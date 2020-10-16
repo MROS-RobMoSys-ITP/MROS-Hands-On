@@ -19,7 +19,7 @@ Fetch, build and install navigation2 stack:
   wget https://raw.githubusercontent.com/MROS-RobMoSys-ITP/MROS-Hands-On/main/mros-hands-on.repos
   vcs import < mros-hands-on.repos
   cd ..
-  rosdep install -y -r -q --from-paths src --ignore-src --rosdistro foxy
+  rosdep install -y -r -q --from-paths src --ignore-src --rosdistro foxy --skip-keys="turtlebot2_drivers map_server astra_camera amcl"
   colcon build --symlink-install
 ```
 
@@ -76,4 +76,3 @@ The battery of the robot is drining based on the movements of the robot. The met
 ![mros_reasoner_battery_log](resources/mros_reasoner_battery_log.png)
 
 #### MROS reasoner managing a contingency.
-
