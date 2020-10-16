@@ -37,6 +37,5 @@ repositories:
     version: metacontrol-test-integration
   mc_mros_reasoner:
     type: git
-    url: https://github.com/MROS-RobMoSys-ITP/navigation2.git
+    url: https://github.com/tud-cor/mc_mros_reasoner.git
     version: foxy_devel
-
