@@ -29,7 +29,7 @@ This launcher includes gazebo, pointcloud_to_laser, laser_driver_wrapper, and **
 The **system_modes mode_manager** takes the modes description from `Pilot-URJC/pilot_urjc_bringup/params/pilot_modes.yaml`.
 
 ```console
-  export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:[ros2_ws]/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models
+  export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:[ros2_ws]/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models:[ros2_ws]/src/Pilot-URJC/pilot_urjc_bringup/worlds/models
   export TURTLEBOT3_MODEL=${TB3_MODEL}
   ros2 launch pilot_urjc_bringup tb3_sim_launch.py
 ```
