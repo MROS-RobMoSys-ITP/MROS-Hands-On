@@ -76,3 +76,13 @@ The battery of the robot is drining based on the movements of the robot. The met
 ![mros_reasoner_battery_log](resources/mros_reasoner_battery_log.png)
 
 #### MROS reasoner managing a contingency.
+
+
+## Autonomous navigation. Patrol mission.
+We have developed a behavior to go through a set of waypoints autonomously. It is implemented using a simple [BehaviorTree](https://github.com/MROS-RobMoSys-ITP/Pilot-URJC/blob/master/pilot_behavior/behavior_trees/bt.xml)
+![waypoints](resources/waypoints.png)
+  
+```console
+  ros2 launch pilot_behavior pilot_urjc_launch.py
+```
+
