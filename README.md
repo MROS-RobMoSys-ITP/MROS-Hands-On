@@ -1,7 +1,19 @@
 # MROS-Hands-On
 A tutorial to get the MROS ecosystem fully working and understand how to use it to solve different problems.
 
-## General Dependencies
+
+## Table of Contents
+1. [Installing MROS Ecosystem](#installing-mros-ecosystem)
+2. [Starting with a Turtlebo3 in Gazebo](#starting-with-a-turtlebo3-in-gazebo)
+3. [Navigation system](#navigation-launcher)
+4. [The metacontroller](#launch-the-mros2-metacontroller)
+5. [MROS managing contingencies](#mros-managing-contingencies)
+  - [Laser failure](#laser-failure-management)
+  - [Low battery](#low-battery-management)
+6. [Patrol mission](#autonomous-navigation-patrol-mission)
+
+
+## Installing MROS Ecosystem
 MROS is develop under Ubuntu20.04 and ROS2 Foxy, you can find the ROS2 installation steps and the environment setup [here](https://index.ros.org/doc/ros2/Installation/Foxy/), [here](https://index.ros.org/doc/ros2/Tutorials/Colcon-Tutorial/#colcon) and [here](https://index.ros.org/doc/ros2/Tutorials/Colcon-Tutorial/#create-a-workspace).
 
 The mros_reasoner uses [Owlready2](https://owlready2.readthedocs.io/en/latest/index.html) and Java to handle the ontologies and perform reasoning.
