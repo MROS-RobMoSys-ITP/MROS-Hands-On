@@ -61,7 +61,7 @@ This step launches the `mros2_metacontroller`, it launches by default the `kb.ow
 ```console
   ros2 launch mros2_reasoner launch_reasoner.launch.py
 ```
-- By default it sets the `f3_v3_r1` mode which corresponds to the NORMAL mode.
+- By default it sets the `f_normal_mode` mode which corresponds to the NORMAL mode.
 
 - With all the above, we will have enough to test some navigation actions and experiment simulating some contingencies and seeing how this change affects the navigation.
 
@@ -79,6 +79,7 @@ We have develop a RVIz tool to simulate a laser failure and its consequences. It
 #### System modes rules managing the laser failure.
 The system modes rules able to switch between two modes if any component managed by the current mode is in error. [More info about the system_modes rules](https://github.com/micro-ROS/system_modes/tree/feature/rules/system_modes#error-handling-and-rules).
 
+To switch between two modes, it follows a [rule](https://github.com/MROS-RobMoSys-ITP/Pilot-URJC/blob/master/pilot_urjc_bringup/params/pilot_modes.yaml#L52-L56) setting the mode `f_degraded_mode`.
 
 ### Low battery management.
 
