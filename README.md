@@ -61,7 +61,7 @@ This step launches the `mros2_metacontroller`, it launches by default the `kb.ow
 ```console
   ros2 launch mros2_reasoner launch_reasoner.launch.py
 ```
-- By default it sets the `f_normal_mode` mode which corresponds to the NORMAL mode.
+- By default it sets the `f3_v3_r1` mode which corresponds to the NORMAL mode.
 
 - With all the above, we will have enough to test some navigation actions and experiment simulating some contingencies and seeing how this change affects the navigation.
 
@@ -78,15 +78,57 @@ We have develop a RVIz tool to simulate a laser failure and its consequences. It
 
 #### System modes rules managing the laser failure.
 The system modes rules able to switch between two modes if any component managed by the current mode is in error. [More info about the system_modes rules](https://github.com/micro-ROS/system_modes/tree/feature/rules/system_modes#error-handling-and-rules).
-To switch between two modes, it follows a [rule](https://github.com/MROS-RobMoSys-ITP/Pilot-URJC/blob/master/pilot_urjc_bringup/params/pilot_modes.yaml#L52-L56) setting the mode `f_degraded_mode`.
 
 
 ### Low battery management.
 
 #### Simulating the battery drining.
-The battery of the robot is drining based on the movements of the robot. The metacontroller window shows the battery consumption (0.0 - 1.0).
+
+The battery of the robot is drining based on the movements of the robot. The metacontroller window shows the battery consumption (0.0 - 1.0). This battery level represents the Energy QA for the metacontroller.
 
 ![mros_reasoner_battery_log](resources/mros_reasoner_battery_log.png)
+
+- The battery level is sent to the metacontroller as a QA value using the `/diagnostic` topic (See https://github.com/ros2/common_interfaces/blob/foxy/diagnostic_msgs/msg/DiagnosticArray.msg)
+
+```
+mros2_reasoner_node-1] [INFO] [1603183654.050846253] [mros2_reasoner_node]: Entered timer_cb for metacontrol reasoning
+[mros2_reasoner_node-1] [INFO] [1603183654.052244011] [mros2_reasoner_node]:   >> Started MAPE-K ** Analysis (ontological reasoning) **
+[mros2_reasoner_node-1] [WARN] [1603183654.625280278] [mros2_reasoner_node]: QA value received for	 	TYPE: energy	VALUE: 0.493473
+[mros2_reasoner_node-1] [INFO] [1603183654.781046611] [mros2_reasoner_node]: QA value received!	TYPE: energy	VALUE: 0.493473
+[mros2_reasoner_node-1] [INFO] [1603183654.781165253] [mros2_reasoner_node]:      >> Finished ontological reasoning)
+```
+
+- When the battery goes over a gthreshold `0.5`  a reconfiguration is required
+- The metacontroller searchs the for a new mode, and marks the current one as failed.
+
+```
+[mros2_reasoner_node-1] FGs:
+[mros2_reasoner_node-1] [INFO] [1603183666.750156602] [mros2_reasoner_node]: QA value received!	TYPE: energy	VALUE: 0.538985
+[mros2_reasoner_node-1] WARNING:root: fg_f_performance_mode	objective: kb_hands_on.o_navigateA	status: None	FD: kb_hands_on.f_performance_mode, 	QAvalues: [('energy', 0.538985)]
+[mros2_reasoner_node-1] WARNING:root:
+[mros2_reasoner_node-1] OBJECTIVE	|  STATUS	|  NFRs
+[mros2_reasoner_node-1] WARNING:root:o_navigateA	|  INTERNAL_ERROR	|  [('energy', 0.5), ('safety', 0.5)]
+[mros2_reasoner_node-1] [WARN] [1603183666.751149736] [mros2_reasoner_node]: Objectives in status ERROR: ['o_navigateA']
+[mros2_reasoner_node-1] [INFO] [1603183666.751405032] [mros2_reasoner_node]:   >> Finished MAPE-K ** ANALYSIS **
+[mros2_reasoner_node-1] [INFO] [1603183666.751651488] [mros2_reasoner_node]:   >> Started MAPE-K ** PLAN adaptation **
+[mros2_reasoner_node-1] [INFO] [1603183666.751896213] [mros2_reasoner_node]: => Reasoner searches FD for objective: o_navigateA
+[mros2_reasoner_node-1] WARNING:root:== FunctionDesigns available for obj: ['f_degraded_mode', 'f_energy_saving_mode', 'f_normal_mode', 'f_performance_mode', 'f_slow_mode']
+[mros2_reasoner_node-1] WARNING:root:Objective NFR ENERGY: [kb_hands_on.nfr_energy, kb_hands_on.nfr_safety]
+[mros2_reasoner_node-1] WARNING:root:== Checking FDs for Objective with NFRs type: energy and value 0.5 
+[mros2_reasoner_node-1] WARNING:root:== FunctionDesigns also meeting NFRs: ['f_slow_mode']
+[mros2_reasoner_node-1] WARNING:root:> Best FD available f_slow_mode
+```
+- The new mode is changed using the `/change mode` service provided by the system modes. 
+
+```
+[mros2_reasoner_node-1] [INFO] [1603183666.752534090] [mros2_reasoner_node]:   >> Finished MAPE-K ** Plan adaptation **
+[mros2_reasoner_node-1] [INFO] [1603183666.752783762] [mros2_reasoner_node]:   >> Started MAPE-K ** EXECUTION **
+[mros2_reasoner_node-1] [WARN] [1603183666.753033650] [mros2_reasoner_node]: New Configuration requested: f_slow_mode
+[mros2_reasoner_node-1] [INFO] [1603183666.757148442] [mros2_reasoner_node]: Got service result True
+[mros2_reasoner_node-1] [INFO] [1603183666.759040367] [mros2_reasoner_node]: = RECONFIGURATION SUCCEEDED =
+[mros2_reasoner_node-1] [INFO] [1603183666.759511555] [mros2_reasoner_node]:   >> Finished MAPE-K ** EXECUTION **
+```
+
 
 #### MROS reasoner managing a contingency.
 
