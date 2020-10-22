@@ -25,6 +25,8 @@ We are focus in mobile robots and we are using the navigation2 package.
 Fetch, build and install navigation2 stack:
 
 ```console
+  source /opt/ros/foxy/setup.bash
+
   sudo apt install ros-foxy-slam-toolbox ros-foxy-gazebo-ros-pkgs python3-vcstool python3-rosdep2 python3-colcon-common-extensions
 
   cd [ros2_ws]/src
