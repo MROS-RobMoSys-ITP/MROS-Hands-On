@@ -25,7 +25,7 @@ We are focus in mobile robots and we are using the navigation2 package.
 Fetch, build and install navigation2 stack:
 
 ```console
-  sudo apt install ros-foxy-slam-toolbox ros-foxy-gazebo-ros-pkgs python3-vcstool
+  sudo apt install ros-foxy-slam-toolbox ros-foxy-gazebo-ros-pkgs python3-vcstool python3-rosdep2
 
   cd [ros2_ws]/src
   wget https://raw.githubusercontent.com/MROS-RobMoSys-ITP/MROS-Hands-On/main/mros-hands-on.repos
