@@ -78,10 +78,23 @@ We have develop a RVIz tool to simulate a laser failure and its consequences. It
 
 ![rviz_cont_tool](resources/contingency_tool.png)
 
-#### System modes rules managing the laser failure.
-The system modes rules able to switch between two modes if any component managed by the current mode is in error. [More info about the system_modes rules](https://github.com/micro-ROS/system_modes/tree/feature/rules/system_modes#error-handling-and-rules).
+#### Managing the laser failure.
 
-To switch between two modes, it follows a [rule](https://github.com/MROS-RobMoSys-ITP/Pilot-URJC/blob/master/pilot_urjc_bringup/params/pilot_modes.yaml#L52-L56) setting the mode `f_degraded_mode`.
+The [mros_modes_observer](https://github.com/MROS-RobMoSys-ITP/mros_modes_observer) package is used to monitor the status of the components (i.e. laser or other sensors) by subscribing to the [`[component_node]/transition_event`](https://github.com/ros2/rcl_interfaces/blob/master/lifecycle_msgs/msg/TransitionEvent.msg).
+
+When the laser failure is detected, a message is sent to the metacontroller using the `/diagnostic` topic. 
+
+```console
+mros2_reasoner_node-1] [INFO] [1603183654.050846253] [mros2_reasoner_node]: Entered timer_cb for metacontrol reasoning
+[mros2_reasoner_node-1] [INFO] [1603183654.052244011] [mros2_reasoner_node]:   >> Started MAPE-K ** Analysis (ontological reasoning) **
+[mros2_reasoner_node-1] [WARN] [1603183654.625280278] [mros2_reasoner_node]: QA value received for	 	TYPE: laser_resender	VALUE: false
+[mros2_reasoner_node-1] [INFO] [1603183654.781046611] [mros2_reasoner_node]: QA value received!	TYPE: laser_resender	VALUE: false
+[mros2_reasoner_node-1] [INFO] [1603183654.781165253] [mros2_reasoner_node]:      >> Finished ontological reasoning)
+```
+
+- The metacontroller then sets all the modes that use this component in `Error Mode`.
+- If the current mode is using this component, a reconfiguration is trigger.
+- The metacontroller searchs the for a new mode that does not use the component in error, for this pilot it's only the `f_degraded_mode`.
 
 ### Low battery management.
 

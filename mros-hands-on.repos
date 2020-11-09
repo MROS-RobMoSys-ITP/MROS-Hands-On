@@ -43,3 +43,8 @@ repositories:
     type: git
     url: https://github.com/tud-cor/mc_mros_reasoner.git
     version: foxy_devel
+  mros_modes_observer:
+    type: git
+    url: https://github.com/MROS-RobMoSys-ITP/mros_modes_observer.git
+    version: main
+
