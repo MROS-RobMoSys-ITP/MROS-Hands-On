@@ -92,8 +92,8 @@ mros2_reasoner_node-1] [INFO] [1603183654.050846253] [mros2_reasoner_node]: Ente
 [mros2_reasoner_node-1] [INFO] [1603183654.781165253] [mros2_reasoner_node]:      >> Finished ontological reasoning)
 ```
 
-- The metacontroller then sets all the modes that use this component in `Error Mode`.
-- If the current mode is using this component, a reconfiguration is trigger.
+- The metacontroller then sets all the modes that use this component as not realisable. This is done through `fd_realisability` with value `false`.
+- If the current mode is using this component, a reconfiguration is trigger. This is because the current mode is a function grounding of a not realisable function design.
 - The metacontroller searchs the for a new mode that does not use the component in error, for this pilot it's only the `f_degraded_mode`.
 
 ### Low battery management.
